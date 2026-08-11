@@ -245,13 +245,397 @@
     padding:34px 18px;
     text-align:center;
     border-right:1px solid rgba(44,38,32,.1);
+    cursor:pointer;
+    transition: background .2s, transform .2s;
   }
+  .exp:hover{ background: var(--cream); transform: translateY(-3px); }
   .exp:last-child{border-right:none;}
-  .exp .ic{ font-size:26px; margin-bottom:12px; }
+  .exp .ic{ font-size:26px; margin-bottom:12px; transition: transform .2s; }
+  .exp:hover .ic{ transform: scale(1.15); }
   .exp h4{ font-size:13.5px; font-weight:700; margin-bottom:4px; color: var(--forest-deep); }
   .exp span{ font-size:11.5px; color:var(--text-dim); }
   @media (max-width:900px){ .exp-row{grid-template-columns:repeat(3,1fr);} .exp{border-bottom:1px solid rgba(44,38,32,.1);} }
   @media (max-width:520px){ .exp-row{grid-template-columns:repeat(2,1fr);} }
+
+  /* ================= SCROLL REVEAL ================= */
+  .reveal{
+    opacity:0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+  }
+  .reveal.visible{ opacity:1; transform:none; }
+  .reveal-stagger.visible .r-item{ opacity:1; transform:none; }
+  .r-item{
+    opacity:0; transform: translateY(22px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+
+  /* ================= TRIP PLANNER ================= */
+  .planner{
+    background: var(--cream);
+    border-radius:16px;
+    padding:40px;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap:20px;
+    align-items:end;
+  }
+  @media (max-width:900px){ .planner{grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .planner{grid-template-columns:1fr; } }
+  .p-field label{
+    display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color: var(--text-dim); font-weight:700; margin-bottom:8px;
+  }
+  .p-field select, .p-field .night-stepper{
+    width:100%;
+    background: var(--white);
+    border:1.5px solid rgba(44,38,32,.15);
+    border-radius:9px;
+    padding:12px 14px;
+    font-size:14.5px;
+    font-family:'Manrope',sans-serif;
+    color: var(--text);
+  }
+  .night-stepper{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 6px 6px 16px !important;
+  }
+  .night-stepper button{
+    width:32px; height:32px; border-radius:7px; border:none;
+    background: var(--forest); color: var(--white);
+    font-size:16px; font-weight:700; cursor:pointer;
+  }
+  .night-stepper span{ font-weight:700; font-size:15px; }
+  .planner .btn-primary{ height:46px; padding:0 26px; }
+
+  .plan-result{
+    margin-top:26px;
+    background: var(--white);
+    border:1px solid rgba(44,38,32,.1);
+    border-radius:14px;
+    padding:30px 32px;
+    display:none;
+  }
+  .plan-result.show{ display:block; }
+  .plan-result h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:20px;
+    color: var(--forest-deep);
+    margin-bottom:6px;
+  }
+  .plan-result .p-cost{
+    color: var(--brown); font-weight:700; font-size:15px; margin-bottom:20px;
+  }
+  .plan-nights{ list-style:none; }
+  .plan-nights li{
+    display:flex; gap:14px; padding:10px 0;
+    border-bottom:1px dashed rgba(44,38,32,.12);
+    font-size:14px;
+  }
+  .plan-nights li:last-child{ border-bottom:none; }
+  .plan-nights .n-num{
+    font-family:'Fraunces', serif; color: var(--sage); font-weight:600; flex-shrink:0; width:60px;
+  }
+
+  /* ================= CATEGORY MODAL ================= */
+  .overlay{
+    position:fixed; inset:0;
+    background: rgba(33,53,41,.55);
+    backdrop-filter: blur(3px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px; z-index:200;
+  }
+  .overlay.open{ display:flex; }
+  .cat-modal{
+    background: var(--white);
+    border-radius:14px;
+    max-width:440px; width:100%;
+    padding:34px 30px;
+    position:relative;
+    animation: riseIn .22s ease;
+  }
+  @keyframes riseIn{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+  .cat-modal .cat-close{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid rgba(44,38,32,.15); background:transparent;
+    cursor:pointer; font-size:15px; color:var(--text);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cat-modal .cat-ic{ font-size:30px; margin-bottom:14px; }
+  .cat-modal h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:24px;
+    color: var(--forest-deep); margin-bottom:6px;
+  }
+  .cat-modal .cat-sub{ color: var(--text-dim); font-size:13.5px; margin-bottom:20px; }
+  .cat-modal ul{ list-style:none; }
+  .cat-modal li{
+    padding:11px 0; border-bottom:1px solid rgba(44,38,32,.08);
+    font-size:14.5px; color: var(--text); display:flex; align-items:center; gap:10px;
+  }
+  .cat-modal li:last-child{ border-bottom:none; }
+  .cat-modal li::before{ content:'📍'; font-size:12px; }
+
+  /* ================= DISTRICTS DIRECTORY ================= */
+  .dir-search{
+    max-width:480px;
+    margin-bottom:22px;
+    position:relative;
+  }
+  .dir-search input{
+    width:100%;
+    padding:14px 18px 14px 44px;
+    border-radius:10px;
+    border:1.5px solid rgba(44,38,32,.15);
+    background: var(--white);
+    font-size:14.5px;
+    font-family:'Manrope',sans-serif;
+    color: var(--text);
+    outline:none;
+    transition: border-color .2s;
+  }
+  .dir-search input:focus{ border-color: var(--forest); }
+  .dir-search svg{
+    position:absolute; left:15px; top:50%; transform:translateY(-50%);
+    width:17px; height:17px; opacity:.55;
+  }
+  .dir-count{
+    font-size:13px; color: var(--text-dim); margin-bottom:26px;
+  }
+  .dir-count b{ color: var(--brown); }
+  .dir-list{ display:flex; flex-direction:column; gap:10px; }
+  .dir-state{
+    background: var(--cream);
+    border:1px solid rgba(44,38,32,.1);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .dir-state-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px;
+    cursor:pointer;
+  }
+  .dir-state-head:hover{ background: rgba(47,74,56,.05); }
+  .dir-state-left{ display:flex; align-items:center; gap:12px; }
+  .dir-state-name{ font-weight:700; font-size:15px; color: var(--forest-deep); }
+  .dir-state-region{
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.08em;
+    color: var(--brown); background: rgba(122,79,48,.1);
+    padding:3px 9px; border-radius:999px; font-weight:700;
+  }
+  .dir-state-count{ font-size:12.5px; color: var(--text-dim); }
+  .dir-chevron{
+    font-size:13px; color: var(--text-dim);
+    transition: transform .25s;
+  }
+  .dir-state.open .dir-chevron{ transform: rotate(180deg); }
+  .dir-districts{
+    max-height:0;
+    overflow:hidden;
+    transition: max-height .35s ease;
+  }
+  .dir-state.open .dir-districts{ max-height:2000px; }
+  .dir-districts-inner{
+    padding:4px 20px 20px;
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .dir-chip{
+    background: var(--white);
+    border:1px solid rgba(44,38,32,.1);
+    border-radius:7px;
+    padding:6px 12px;
+    font-size:12.5px;
+    color: var(--text);
+    cursor:pointer;
+    transition: background .15s, border-color .15s, transform .15s;
+  }
+  .dir-chip:hover{ background: var(--forest); color: var(--white); border-color: var(--forest); transform: translateY(-1px); }
+  .dir-chip.match{
+    background: var(--forest);
+    color: var(--white);
+    border-color: var(--forest);
+    font-weight:700;
+  }
+  .dir-state.hidden{ display:none; }
+
+  /* ---- Food modal ---- */
+  .food-modal{ max-width:420px; padding:0; overflow:hidden; }
+  .food-banner{
+    height:120px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .food-banner .food-emoji{ font-size:44px; }
+  .food-banner .food-close{
+    position:absolute; top:14px; right:14px;
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.15);
+    color:#fff; cursor:pointer; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .food-body{ padding:26px 26px 30px; }
+  .food-body .food-state{
+    font-size:11px; text-transform:uppercase; letter-spacing:.12em;
+    color: var(--brown); font-weight:700; margin-bottom:6px;
+  }
+  .food-body h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:23px;
+    color: var(--forest-deep); margin-bottom:16px;
+  }
+  .food-body .food-tag{
+    display:inline-block; font-size:11px; font-weight:700;
+    padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+  .food-tag.specific{ background: rgba(47,74,56,.1); color: var(--forest); }
+  .food-tag.fallback{ background: rgba(122,79,48,.1); color: var(--brown); }
+  .food-dish-list{ list-style:none; }
+  .food-dish-list li{
+    padding:10px 0; border-bottom:1px solid rgba(44,38,32,.08);
+    font-size:14.5px; color:var(--text); display:flex; align-items:center; gap:10px;
+  }
+  .food-dish-list li:last-child{ border-bottom:none; }
+  .food-dish-list li::before{ content:'🍽️'; font-size:12px; }
+  .food-note{ font-size:12.5px; color: var(--text-dim); margin-top:14px; line-height:1.5; }
+
+  /* ================= CULTURE STRIP (was here) ================= */
+
+  /* ================= TRIP GUIDE ================= */
+  .guide-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:22px;
+  }
+  .guide-card{
+    background: var(--cream);
+    border:1px solid rgba(44,38,32,.1);
+    border-radius:12px;
+    padding:28px 26px;
+  }
+  .guide-card .g-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:18px;
+  }
+  .guide-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:22px;
+    color: var(--forest-deep);
+  }
+  .guide-card .g-region{
+    font-size:11px; text-transform:uppercase; letter-spacing:.1em;
+    color: var(--brown); font-weight:700;
+  }
+  .g-badge{
+    background: var(--forest);
+    color: var(--white);
+    font-size:11px; font-weight:700;
+    padding:5px 12px; border-radius:999px;
+    white-space:nowrap;
+  }
+  .g-rows{ display:flex; flex-direction:column; gap:12px; }
+  .g-row{ display:flex; gap:12px; align-items:flex-start; }
+  .g-ic{ font-size:16px; width:22px; flex-shrink:0; }
+  .g-row-text .g-label{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-dim); font-weight:700; margin-bottom:2px; }
+  .g-row-text .g-val{ font-size:14px; color: var(--text); line-height:1.5; }
+  .g-budget-tiers{ display:flex; gap:10px; margin-top:4px; flex-wrap:wrap; }
+  .g-tier{
+    background: var(--white);
+    border:1px solid rgba(44,38,32,.12);
+    border-radius:7px;
+    padding:8px 12px;
+    font-size:12.5px;
+    flex:1; min-width:110px;
+  }
+  .g-tier b{ display:block; color:var(--forest-deep); font-size:14px; }
+  @media (max-width:800px){ .guide-grid{grid-template-columns:1fr;} }
+
+  /* ================= PREMIUM ================= */
+  .premium{
+    background: var(--forest-deep);
+    margin-top:110px;
+    padding: 90px 0 100px;
+  }
+  .premium .section-head .tag{ color: var(--brown-soft); }
+  .premium .section-head h2{ color: var(--white); }
+  .premium .section-head p{ color: rgba(254,252,246,.75); }
+
+  .premium-layout{
+    display:grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width:900px){ .premium-layout{grid-template-columns:1fr;} }
+
+  .price-card{
+    background: var(--forest);
+    border:1px solid rgba(254,252,246,.15);
+    border-radius:14px;
+    padding:34px 30px;
+  }
+  .price-card .plan-name{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color: var(--brown-soft); font-weight:700; margin-bottom:10px;
+  }
+  .price-card .price{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:44px;
+    color: var(--white);
+    margin-bottom:4px;
+  }
+  .price-card .price span{ font-size:15px; font-family:'Manrope',sans-serif; color: rgba(254,252,246,.6); font-weight:500; }
+  .price-card .price-sub{ font-size:13px; color: rgba(254,252,246,.6); margin-bottom:22px; }
+  .price-card ul{ list-style:none; margin-bottom:26px; }
+  .price-card li{
+    font-size:14px; color: rgba(254,252,246,.9);
+    padding:9px 0; border-bottom:1px solid rgba(254,252,246,.1);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .price-card li:last-child{ border-bottom:none; }
+  .price-card li::before{ content:'✓'; color: var(--brown-soft); font-weight:700; }
+  .price-card .btn-primary{ width:100%; text-align:center; background: var(--brown-soft); color: var(--forest-deep); }
+  .price-card .btn-primary:hover{ background: var(--white); }
+
+  .locked-panel{
+    background: var(--forest);
+    border:1px solid rgba(254,252,246,.15);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .locked-tabs{ display:flex; border-bottom:1px solid rgba(254,252,246,.12); }
+  .locked-tab{
+    flex:1; text-align:center; padding:16px; font-size:13px; font-weight:700;
+    color: rgba(254,252,246,.5); cursor:pointer; transition: color .2s, background .2s;
+  }
+  .locked-tab.active{ color: var(--white); background: rgba(254,252,246,.06); }
+  .locked-body{ position:relative; padding:26px 26px 30px; }
+  .locked-list{ list-style:none; filter: blur(5px); user-select:none; transition: filter .3s; }
+  .locked-body.unlocked .locked-list{ filter:none; }
+  .locked-list li{
+    font-size:14.5px; color: rgba(254,252,246,.9);
+    padding:12px 0; border-bottom:1px dashed rgba(254,252,246,.15);
+  }
+  .locked-list li b{ color: var(--brown-soft); }
+  .lock-overlay{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; text-align:center; padding:20px;
+    background: rgba(33,53,41,.35);
+  }
+  .locked-body.unlocked .lock-overlay{ display:none; }
+  .lock-icon{ font-size:26px; }
+  .lock-overlay p{ color: var(--white); font-size:14px; max-width:260px; line-height:1.5; }
+  .unlock-btn{
+    background: var(--brown-soft); color: var(--forest-deep);
+    padding:11px 22px; border-radius:8px; font-weight:700; font-size:13.5px; border:none; cursor:pointer;
+    transition: background .2s;
+  }
+  .unlock-btn:hover{ background: var(--white); }
+  .unlocked-note{
+    font-size:12px; color: var(--brown-soft); margin-top:16px; text-align:center;
+  }
 
   /* ================= CULTURE STRIP ================= */
   .culture{
@@ -350,9 +734,9 @@
     <div class="logo">Travel<span>Fun</span></div>
     <div class="nav-links">
       <a href="#destinations">Destinations</a>
-      <a href="#experiences">Experiences</a>
-      <a href="#culture">Culture</a>
-      <a href="#plan">Plan a Trip</a>
+      <a href="#trip-guide">Trip Guide</a>
+      <a href="#districts">All States</a>
+      <a href="#premium">Premium</a>
     </div>
     <a href="#plan" class="nav-cta">Plan Your Trip</a>
   </div>
@@ -411,13 +795,248 @@
     <div class="dest-card"><div class="dest-num">06</div><div class="region">Meghalaya</div><h3>The Living Bridges</h3><p>Root bridges grown over centuries, in the wettest hills on earth.</p></div>
   </div>
 
-  <div class="exp-row" id="experiences">
-    <div class="exp"><div class="ic">🏔️</div><h4>Himalaya</h4><span>Treks &amp; monasteries</span></div>
-    <div class="exp"><div class="ic">🏖️</div><h4>Coastline</h4><span>Goa to Andaman</span></div>
-    <div class="exp"><div class="ic">🕌</div><h4>Heritage</h4><span>Forts &amp; temples</span></div>
-    <div class="exp"><div class="ic">🐅</div><h4>Wildlife</h4><span>Tigers &amp; rhinos</span></div>
-    <div class="exp"><div class="ic">🛕</div><h4>Spiritual</h4><span>Ghats &amp; shrines</span></div>
-    <div class="exp"><div class="ic">🍛</div><h4>Food Trails</h4><span>State by state</span></div>
+  <div class="exp-row reveal-stagger" id="experiences">
+    <div class="exp r-item" data-cat="himalaya"><div class="ic">🏔️</div><h4>Himalaya</h4><span>Treks &amp; monasteries</span></div>
+    <div class="exp r-item" data-cat="coastline"><div class="ic">🏖️</div><h4>Coastline</h4><span>Goa to Andaman</span></div>
+    <div class="exp r-item" data-cat="heritage"><div class="ic">🕌</div><h4>Heritage</h4><span>Forts &amp; temples</span></div>
+    <div class="exp r-item" data-cat="wildlife"><div class="ic">🐅</div><h4>Wildlife</h4><span>Tigers &amp; rhinos</span></div>
+    <div class="exp r-item" data-cat="spiritual"><div class="ic">🛕</div><h4>Spiritual</h4><span>Ghats &amp; shrines</span></div>
+    <div class="exp r-item" data-cat="food"><div class="ic">🍛</div><h4>Food Trails</h4><span>State by state</span></div>
+  </div>
+</section>
+
+<section id="planner-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">Build Your Own Trip</span>
+      <h2>Plan it your way</h2>
+      <p>Pick a destination and how many nights you're staying — get an estimated cost and a night-by-night plan.</p>
+    </div>
+    <div class="planner reveal">
+      <div class="p-field">
+        <label>Destination</label>
+        <select id="planDest">
+          <option value="rajasthan">Rajasthan</option>
+          <option value="kerala">Kerala</option>
+          <option value="ladakh">Ladakh</option>
+          <option value="goa">Goa</option>
+          <option value="up">Uttar Pradesh</option>
+          <option value="meghalaya">Meghalaya</option>
+        </select>
+      </div>
+      <div class="p-field">
+        <label>Nights</label>
+        <div class="night-stepper">
+          <button type="button" id="nightMinus">−</button>
+          <span id="nightCount">2</span>
+          <button type="button" id="nightPlus">+</button>
+        </div>
+      </div>
+      <div class="p-field">
+        <label>Budget style</label>
+        <select id="planTier">
+          <option value="budget">Budget</option>
+          <option value="mid" selected>Mid-range</option>
+          <option value="luxury">Luxury</option>
+        </select>
+      </div>
+      <button class="btn-primary" id="planGo">Plan It</button>
+    </div>
+
+    <div class="plan-result" id="planResult">
+      <h4 id="planTitle"></h4>
+      <div class="p-cost" id="planCost"></div>
+      <ul class="plan-nights" id="planNights"></ul>
+    </div>
+  </div>
+</section>
+
+<section id="trip-guide">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Full Trip Guide</span>
+      <h2>How to actually plan the trip</h2>
+      <p>How to reach, how many days you need, and roughly what it costs per person — for each of our signature journeys.</p>
+    </div>
+    <div class="guide-grid">
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Rajasthan</div><h3>The Desert Kingdom</h3></div>
+          <div class="g-badge">4–6 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fly into Jaipur (JAI) from any metro; or overnight train from Delhi to Jaipur/Jodhpur/Jaisalmer.</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">October to March — summers cross 45°C in the desert.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹9,000–13,000</b>Budget (hostels, trains, street food)</div>
+              <div class="g-tier"><b>₹20,000–30,000</b>Mid-range (3★ hotels, cabs)</div>
+              <div class="g-tier"><b>₹45,000+</b>Luxury (heritage havelis)</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Kerala</div><h3>The Backwaters</h3></div>
+          <div class="g-badge">5–7 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fly into Kochi (COK); Alleppey and Munnar are 1.5–4hr drives from there.</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">September to March, post-monsoon greenery is at its best.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹11,000–15,000</b>Budget</div>
+              <div class="g-tier"><b>₹25,000–35,000</b>Mid-range (shared houseboat)</div>
+              <div class="g-tier"><b>₹50,000+</b>Luxury (private houseboat)</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Ladakh</div><h3>The Cold Desert</h3></div>
+          <div class="g-badge">6–8 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fly into Leh (IXL); spend 1–2 days acclimatising before heading to higher passes.</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">May to September — roads to Pangong/Nubra are snowbound the rest of the year.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹18,000–24,000</b>Budget (shared cabs, guesthouses)</div>
+              <div class="g-tier"><b>₹35,000–45,000</b>Mid-range</div>
+              <div class="g-tier"><b>₹65,000+</b>Luxury (private jeep safari)</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Goa</div><h3>The Coastal Escape</h3></div>
+          <div class="g-badge">3–5 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fly into Goa (GOI/Manohar); overnight trains from Mumbai/Bangalore also run daily.</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">November to February for cool, dry weather.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹6,000–9,000</b>Budget (hostels, scooters)</div>
+              <div class="g-tier"><b>₹15,000–22,000</b>Mid-range</div>
+              <div class="g-tier"><b>₹35,000+</b>Luxury (beach resorts)</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Uttar Pradesh</div><h3>The Mughal Trail</h3></div>
+          <div class="g-badge">2–4 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fast train from Delhi to Agra (2hrs) or Varanasi (flight, ~1.5hrs).</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">October to March, avoids the north-Indian summer heat.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹4,000–6,500</b>Budget</div>
+              <div class="g-tier"><b>₹10,000–16,000</b>Mid-range</div>
+              <div class="g-tier"><b>₹25,000+</b>Luxury</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="g-head">
+          <div><div class="g-region">Meghalaya</div><h3>The Living Bridges</h3></div>
+          <div class="g-badge">4–6 days</div>
+        </div>
+        <div class="g-rows">
+          <div class="g-row"><span class="g-ic">✈️</span><div class="g-row-text"><div class="g-label">How to reach</div><div class="g-val">Fly into Guwahati (GAU), then a 3hr scenic drive to Shillong/Cherrapunji.</div></div></div>
+          <div class="g-row"><span class="g-ic">📅</span><div class="g-row-text"><div class="g-label">Best time</div><div class="g-val">October to April — avoid peak monsoon (June–August) unless chasing the rains themselves.</div></div></div>
+          <div class="g-row"><span class="g-ic">💰</span><div class="g-row-text"><div class="g-label">Cost per person</div>
+            <div class="g-budget-tiers">
+              <div class="g-tier"><b>₹9,000–13,000</b>Budget</div>
+              <div class="g-tier"><b>₹18,000–26,000</b>Mid-range</div>
+              <div class="g-tier"><b>₹38,000+</b>Luxury</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="districts">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">Full Directory</span>
+      <h2>All 33 states &amp; UTs, every district</h2>
+      <p>Search a district or state — tap any state to expand its full district list, so you always know exactly where you're headed.</p>
+    </div>
+    <div class="dir-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2c2620" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="dirSearch" type="text" placeholder="Search a state or district…" autocomplete="off">
+    </div>
+    <div class="dir-count" id="dirCount">33 states &amp; UTs · <b>764</b> districts</div>
+    <div class="dir-list reveal" id="dirList"></div>
+  </div>
+</section>
+
+<section class="premium" id="premium">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">TravelFun Premium</span>
+      <h2>Unlock local food &amp; hidden gems</h2>
+      <p>Everything above is free forever. Premium members get the spots we don't put on the homepage — the food only locals eat, and the places that don't show up on a Google search.</p>
+    </div>
+
+    <div class="premium-layout">
+      <div class="price-card">
+        <div class="plan-name">Explorer Plan</div>
+        <div class="price">₹149<span>/month</span></div>
+        <div class="price-sub">or ₹999/year — save 44%</div>
+        <ul>
+          <li>Hidden gems for all 33 states &amp; UTs</li>
+          <li>Local-only food guides, dish by dish</li>
+          <li>Off-season and off-route suggestions</li>
+          <li>New spots added every month</li>
+        </ul>
+        <a href="#" id="subscribeBtn" class="btn-primary">Get Premium</a>
+      </div>
+
+      <div class="locked-panel">
+        <div class="locked-tabs">
+          <div class="locked-tab active" data-tab="gems">Hidden Gems</div>
+          <div class="locked-tab" data-tab="food">Local Food Guide</div>
+        </div>
+        <div class="locked-body" id="lockedBody">
+          <ul class="locked-list" id="gemsList">
+            <li><b>Rajasthan</b> — Kuldhara, an abandoned 13th-century village outside Jaisalmer, empty of tourists at sunset.</li>
+            <li><b>Kerala</b> — Poovar's backwater-meets-sea inlet, quieter and cheaper than Alleppey.</li>
+            <li><b>Ladakh</b> — Tso Moriri lake, less crowded than Pangong with the same colour.</li>
+            <li><b>Meghalaya</b> — Krang Suri Falls, a turquoise pool locals swim in, rarely on itineraries.</li>
+          </ul>
+          <ul class="locked-list" id="foodList" style="display:none;">
+            <li><b>Jaisalmer</b> — Ker Sangri, a desert-bean dish almost never on restaurant menus, ask a homestay.</li>
+            <li><b>Kochi</b> — Kallappam with mutton stew, a breakfast locals queue for before 8am.</li>
+            <li><b>Leh</b> — Chutagi, a Ladakhi pasta-and-vegetable stew, warmer and heartier than momos.</li>
+            <li><b>Shillong</b> — Tungtap, a fermented fish chutney that's a Khasi household staple.</li>
+          </ul>
+          <div class="lock-overlay">
+            <div class="lock-icon">🔒</div>
+            <p>Subscribe to reveal every hidden gem and local dish, state by state.</p>
+            <button class="unlock-btn" id="unlockBtn">Unlock Premium</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="unlocked-note" id="unlockedNote" style="display:none;">Premium unlocked for this session — payment integration connects here.</div>
   </div>
 </section>
 
@@ -465,19 +1084,277 @@
   <span>— TravelFun Field Notes</span>
 </div>
 
-<section id="plan">
+<section>
   <div class="wrap">
     <div class="cta-band">
       <h2>Where does your India story start?</h2>
-      <p>Search states, plan routes, and build a trip shaped around what you actually want to see.</p>
-      <a href="#" class="btn-primary">Start Planning</a>
+      <p>Check the trip guide above, pick your budget, and go — or unlock Premium for the spots we keep off the homepage.</p>
+      <a href="#trip-guide" class="btn-primary">See Trip Guide</a>
     </div>
   </div>
 </section>
 
+<div class="overlay" id="catOverlay">
+  <div class="cat-modal" id="catModal"></div>
+</div>
+
 <footer>
   TravelFun — a journey through every state of India · Crafted in green, white &amp; brown
 </footer>
+
+<script>
+  // Tab switching for Hidden Gems / Local Food Guide
+  const tabs = document.querySelectorAll('.locked-tab');
+  const gemsList = document.getElementById('gemsList');
+  const foodList = document.getElementById('foodList');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      if(tab.dataset.tab === 'gems'){
+        gemsList.style.display = 'block';
+        foodList.style.display = 'none';
+      } else {
+        gemsList.style.display = 'none';
+        foodList.style.display = 'block';
+      }
+    });
+  });
+
+  // Demo unlock (replace with a real payment link redirect for production)
+  const unlockBtn = document.getElementById('unlockBtn');
+  const lockedBody = document.getElementById('lockedBody');
+  const unlockedNote = document.getElementById('unlockedNote');
+  const subscribeBtn = document.getElementById('subscribeBtn');
+
+  function goToPayment(){
+    // Replace '#' below with your real Razorpay/Stripe Payment Page link
+    window.location.href = '#';
+  }
+  unlockBtn.addEventListener('click', () => {
+    lockedBody.classList.add('unlocked');
+    unlockedNote.style.display = 'block';
+  });
+  subscribeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    goToPayment();
+  });
+
+const DISTRICT_DATA = [{"state": "Andhra Pradesh", "region": "South", "districts": ["Anantapur", "Annamayya", "Alluri Sitharama Raju", "Anakapalli", "Bapatla", "Chittoor", "East Godavari", "Eluru", "Guntur", "Kakinada", "Konaseema", "Krishna", "Kurnool", "NTR", "Nandyal", "Palnadu", "Parvathipuram Manyam", "Prakasam", "Srikakulam", "Sri Sathya Sai", "SPSR Nellore", "Tirupati", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"]}, {"state": "Arunachal Pradesh", "region": "North-East", "districts": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke-Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"]}, {"state": "Assam", "region": "North-East", "districts": ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"]}, {"state": "Bihar", "region": "East", "districts": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"]}, {"state": "Chhattisgarh", "region": "Central", "districts": ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Gaurela-Pendra-Marwahi", "Janjgir-Champa", "Jashpur", "Kabirdham", "Kanker", "Khairagarh-Chhuikhadan-Gandai", "Kondagaon", "Korba", "Koriya", "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Ambagarh Chowki", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"]}, {"state": "Goa", "region": "West", "districts": ["North Goa", "South Goa"]}, {"state": "Gujarat", "region": "West", "districts": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udepur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"]}, {"state": "Haryana", "region": "North", "districts": ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"]}, {"state": "Himachal Pradesh", "region": "North", "districts": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"]}, {"state": "Jharkhand", "region": "East", "districts": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"]}, {"state": "Karnataka", "region": "South", "districts": ["Bagalkot", "Ballari", "Belagavi", "Bengaluru Rural", "Bengaluru Urban", "Bidar", "Chamarajanagar", "Chikballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru", "Raichur", "Ramanagara", "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayapura", "Vijayanagara", "Yadgir"]}, {"state": "Kerala", "region": "South", "districts": ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"]}, {"state": "Madhya Pradesh", "region": "Central", "districts": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mahesar", "Maihar", "Mandla", "Mandsaur", "Mauganj", "Morena", "Narmadapuram", "Narsinghpur", "Neemuch", "Niwari", "Pandhurna", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"]}, {"state": "Maharashtra", "region": "West", "districts": ["Ahilyanagar", "Akola", "Amravati", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Chhatrapati Sambhajinagar", "Dharashiv", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"]}, {"state": "Manipur", "region": "North-East", "districts": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"]}, {"state": "Meghalaya", "region": "North-East", "districts": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "Eastern West Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"]}, {"state": "Mizoram", "region": "North-East", "districts": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saitual", "Serchhip", "Siaha"]}, {"state": "Nagaland", "region": "North-East", "districts": ["Chümoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tuensang", "Tseminyu", "Wokha", "Zunheboto"]}, {"state": "Odisha", "region": "East", "districts": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundargarh"]}, {"state": "Punjab", "region": "North", "districts": ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga", "Sri Muktsar Sahib", "Pathankot", "Patiala", "Rupnagar", "Sahibzada Ajit Singh Nagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Tarn Taran"]}, {"state": "Rajasthan", "region": "North", "districts": ["Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sirohi", "Sri Ganganagar", "Tonk", "Udaipur"]}, {"state": "Sikkim", "region": "North-East", "districts": ["East Sikkim (Gangtok)", "North Sikkim (Mangan)", "Pakyong", "Soreng", "South Sikkim (Namchi)", "West Sikkim (Gyalshing)"]}, {"state": "Tamil Nadu", "region": "South", "districts": ["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"]}, {"state": "Telangana", "region": "South", "districts": ["Adilabad", "Bhadradri Kothagudem", "Hanamkonda", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Komaram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal", "Yadadri Bhuvanagiri"]}, {"state": "Tripura", "region": "North-East", "districts": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"]}, {"state": "Uttar Pradesh", "region": "North", "districts": ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Lakhimpur Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Prayagraj", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"]}, {"state": "Uttarakhand", "region": "North", "districts": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"]}, {"state": "West Bengal", "region": "East", "districts": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"]}, {"state": "Delhi", "region": "Union Territory", "districts": ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"]}, {"state": "Jammu & Kashmir", "region": "Union Territory", "districts": ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"]}, {"state": "Ladakh", "region": "Union Territory", "districts": ["Leh", "Kargil"]}, {"state": "Puducherry", "region": "Union Territory", "districts": ["Puducherry", "Karaikal", "Mahe", "Yanam"]}, {"state": "Andaman & Nicobar Islands", "region": "Union Territory", "districts": ["North and Middle Andaman", "South Andaman", "Nicobar"]}];
+
+
+const STATE_FOOD = {"Andhra Pradesh": ["Andhra spicy biryani", "Gongura Pachadi", "Pesarattu"], "Arunachal Pradesh": ["Thukpa", "Apong (rice beer)", "Bamboo Shoot Pork"], "Assam": ["Masor Tenga", "Khar", "Pitha"], "Bihar": ["Litti Chokha", "Sattu Paratha", "Thekua"], "Chhattisgarh": ["Chila", "Faraa", "Bore Basi"], "Goa": ["Goan Fish Curry Rice", "Vindaloo", "Bebinca"], "Gujarat": ["Dhokla", "Thepla", "Undhiyu"], "Haryana": ["Bajre ki Khichdi", "Kachri ki Sabzi", "Singri ki Sabzi"], "Himachal Pradesh": ["Dham (festive thali)", "Siddu", "Chana Madra"], "Jharkhand": ["Dhuska", "Litti Chokha", "Rugra"], "Karnataka": ["Bisi Bele Bath", "Mysore Pak", "Ragi Mudde"], "Kerala": ["Sadya (banana-leaf feast)", "Appam with Stew", "Puttu"], "Madhya Pradesh": ["Poha-Jalebi", "Bhutte ka Kees", "Dal Bafla"], "Maharashtra": ["Vada Pav", "Puran Poli", "Misal Pav"], "Manipur": ["Eromba", "Chak-hao Kheer (black rice)", "Ngari-based curries"], "Meghalaya": ["Jadoh", "Nakham Bitchi", "Pumaloi"], "Mizoram": ["Bai", "Sawhchiar", "Bamboo Shoot Fry"], "Nagaland": ["Smoked Pork with Bamboo Shoot", "Axone", "Galho"], "Odisha": ["Dalma", "Pakhala Bhata", "Chhena Poda"], "Punjab": ["Sarson da Saag with Makki di Roti", "Amritsari Kulcha", "Lassi"], "Rajasthan": ["Dal Baati Churma", "Laal Maas", "Ghevar"], "Sikkim": ["Momos", "Thukpa", "Gundruk"], "Tamil Nadu": ["Idli-Sambar", "Chettinad Chicken", "Filter Coffee"], "Telangana": ["Hyderabadi Biryani", "Haleem", "Qubani ka Meetha"], "Tripura": ["Mui Borok (Berma)", "Chakhwi", "Mosdeng"], "Uttar Pradesh": ["Tunday Kababi", "Petha", "Banarasi Chaat"], "Uttarakhand": ["Kafuli", "Bhatt ki Churkani", "Aloo ke Gutke"], "West Bengal": ["Machher Jhol (fish curry)", "Rosogolla", "Shorshe Ilish"], "Delhi": ["Chole Bhature", "Paranthe Wali Gali fare", "Butter Chicken"], "Jammu & Kashmir": ["Rogan Josh", "Wazwan feast", "Kahwa tea"], "Ladakh": ["Thukpa", "Skyu", "Butter Tea"], "Puducherry": ["Kadamba Sadam", "French-Tamil fusion dishes", "Fresh seafood"], "Andaman & Nicobar Islands": ["Fresh seafood curries", "Coconut-based Andamanese dishes", "Prawn Balchao"]};
+const DISTRICT_DISH = {"Jaipur": ["Dal Baati Churma", "Pyaaz Kachori"], "Jodhpur": ["Mirchi Bada", "Makhaniya Lassi"], "Bikaner": ["Bikaneri Bhujia", "Rasgulla"], "Jaisalmer": ["Ker Sangri", "Dal Baati"], "Udaipur": ["Dal Baati Churma", "Laal Maas"], "Amritsar": ["Amritsari Kulcha", "Amritsari Fish"], "Ludhiana": ["Sarson da Saag", "Makki di Roti"], "Jalandhar": ["Tandoori dishes", "Pinni"], "Patiala": ["Patiala Shahi Paneer", "Kulfi"], "Lucknow": ["Tunday Kababi", "Awadhi Biryani"], "Agra": ["Petha", "Bedhai aur Jalebi"], "Varanasi": ["Banarasi Chaat", "Kachori Sabzi"], "Kanpur Nagar": ["Thaggu ke Laddu", "Chaat"], "Mathura": ["Peda", "Lassi"], "Central Delhi": ["Chandni Chowk street food", "Chole Bhature"], "New Delhi": ["Butter Chicken", "Paranthe Wali Gali fare"], "Mumbai City": ["Vada Pav", "Pav Bhaji"], "Mumbai Suburban": ["Bombay Sandwich", "Bhel Puri"], "Pune": ["Misal Pav", "Puran Poli"], "Kolhapur": ["Kolhapuri Mutton", "Tambda-Pandhra Rassa"], "Nagpur": ["Saoji cuisine", "Nagpur Oranges"], "Nashik": ["Misal Pav", "Grape-based delicacies"], "Ahmedabad": ["Dhokla", "Khaman"], "Surat": ["Locho", "Undhiyu"], "Vadodara": ["Sev Usal", "Fafda Jalebi"], "North Goa": ["Goan Fish Curry Rice", "Bebinca"], "South Goa": ["Vindaloo", "Prawn Balchao"], "Kozhikode": ["Malabar Biryani", "Kozhikodan Halwa"], "Ernakulam": ["Kochi-style seafood", "Appam with Stew"], "Alappuzha": ["Karimeen Pollichathu", "Sadya"], "Thrissur": ["Thrissur Sadya", "Banana chips"], "Chennai": ["Filter Coffee", "Chettinad-style dishes"], "Madurai": ["Jigarthanda", "Mutton Chukka"], "Coimbatore": ["Kongunadu cuisine", "Kaari Dosai"], "Thanjavur": ["Thanjavur Ghee Roast", "Sambar"], "Bengaluru Urban": ["Masala Dosa", "Bisi Bele Bath"], "Mysuru": ["Mysore Pak", "Mysore Masala Dosa"], "Dakshina Kannada": ["Neer Dosa", "Mangalorean seafood"], "Dharwad": ["Dharwad Peda", "Jolada Rotti"], "Guntur": ["Guntur-style spicy curries", "Gongura Pachadi"], "Krishna": ["Vijayawada-style biryani", "Pesarattu"], "Visakhapatnam": ["Fresh seafood", "Bongulo Chicken"], "Hyderabad": ["Hyderabadi Biryani", "Haleem"], "Nizamabad": ["Sakinalu", "Jonna Rotte"], "Kolkata": ["Kathi Roll", "Rosogolla"], "Murshidabad": ["Chhanabora", "Murshidabadi mishti"], "Darjeeling": ["Darjeeling Tea", "Momos"], "Puri": ["Khaja", "Chhena Poda"], "Cuttack": ["Dahibara Aloodum", "Chungdi Malai"], "Patna": ["Litti Chokha", "Khaja"], "Gaya": ["Tilkut", "Sattu Paratha"], "Ranchi": ["Dhuska", "Rugra"], "Dhanbad": ["Litti Chokha", "Thekua"], "Indore": ["Poha-Jalebi", "Indori street food (Sarafa Bazaar)"], "Bhopal": ["Bhopali Gosht Korma", "Bafla"], "Gwalior": ["Bedai aur Kachori", "Gwalior-style Namkeen"], "Raipur": ["Chila", "Faraa"], "Bastar": ["Tribal bamboo-based dishes", "Chapda Chutney"], "Shimla": ["Dham (festive thali)", "Siddu"], "Kangra": ["Kangra Dham", "Chana Madra"], "Kullu": ["Siddu", "Trout fish curry"], "Dehradun": ["Basmati rice dishes", "Kafuli"], "Almora": ["Bal Mithai", "Aloo ke Gutke"], "Nainital": ["Bhatt ki Churkani", "Kumaoni Raita"], "Kamrup Metropolitan": ["Assam Thali", "Masor Tenga"], "Jorhat": ["Assam Tea", "Khar"], "Dibrugarh": ["Assam Tea", "Pitha"], "East Khasi Hills": ["Jadoh", "Tungrymbai"], "Kohima": ["Axone-based dishes", "Smoked Pork with Bamboo Shoot"], "Imphal East": ["Eromba", "Chak-hao Kheer"], "Imphal West": ["Ngari-based curries", "Chak-hao Kheer"], "Aizawl": ["Bai", "Sawhchiar"], "West Tripura": ["Mui Borok (Berma)", "Chakhwi"], "East Sikkim (Gangtok)": ["Momos", "Thukpa"], "Papum Pare": ["Apong (rice beer)", "Thukpa"], "Srinagar": ["Wazwan feast", "Rogan Josh"], "Jammu": ["Rajma Chawal", "Kaladi Kulcha"], "Leh": ["Thukpa", "Butter Tea"], "Puducherry": ["Kadamba Sadam", "French-Tamil fusion dishes"], "South Andaman": ["Fresh seafood curries", "Coconut-based Andamanese dishes"]};
+
+const REGION_GRADIENTS = {
+  'North': 'linear-gradient(135deg, #2f4a38, #4a3225)',
+  'South': 'linear-gradient(135deg, #7c9473, #7a4f30)',
+  'East': 'linear-gradient(135deg, #4f3220, #2f4a38)',
+  'West': 'linear-gradient(135deg, #7a4f30, #7c9473)',
+  'Central': 'linear-gradient(135deg, #2f4a38, #7a4f30)',
+  'North-East': 'linear-gradient(135deg, #213529, #a9754f)',
+  'Union Territory': 'linear-gradient(135deg, #4a3225, #7c9473)',
+};
+
+function openFoodModal(districtName, stateName, region){
+  const specific = DISTRICT_DISH[districtName];
+  const dishes = specific || STATE_FOOD[stateName] || [];
+  const gradient = REGION_GRADIENTS[region] || REGION_GRADIENTS['Central'];
+
+  catModal.className = 'cat-modal food-modal';
+  catModal.innerHTML = `
+    <div class="food-banner" style="background:${gradient};">
+      <span class="food-emoji">🍽️</span>
+      <button class="food-close" aria-label="Close">✕</button>
+    </div>
+    <div class="food-body">
+      <div class="food-state">${stateName}</div>
+      <h3>${districtName}</h3>
+      <span class="food-tag ${specific ? 'specific' : 'fallback'}">${specific ? 'District specialty' : "State's signature food"}</span>
+      <ul class="food-dish-list">${dishes.map(d => `<li>${d}</li>`).join('')}</ul>
+      ${!specific ? `<div class="food-note">A specific signature dish for ${districtName} isn't well documented — here's what ${stateName} as a whole is known for.</div>` : ''}
+    </div>
+  `;
+  catModal.querySelector('.food-close').addEventListener('click', closeCategory);
+  catOverlay.classList.add('open');
+}
+
+// ---------- States & Districts Directory ----------
+const dirList = document.getElementById('dirList');
+const dirSearch = document.getElementById('dirSearch');
+const dirCount = document.getElementById('dirCount');
+const totalDistricts = DISTRICT_DATA.reduce((sum, s) => sum + s.districts.length, 0);
+
+function renderDirectory(query){
+  const q = (query || '').trim().toLowerCase();
+  dirList.innerHTML = '';
+  let stateMatches = 0;
+  let districtMatches = 0;
+
+  DISTRICT_DATA.forEach((s, idx) => {
+    const stateNameMatches = s.state.toLowerCase().includes(q);
+    const matchedDistricts = s.districts.filter(d => d.toLowerCase().includes(q));
+    const showState = !q || stateNameMatches || matchedDistricts.length > 0;
+    if(!showState) return;
+    stateMatches++;
+    districtMatches += q ? (stateNameMatches ? s.districts.length : matchedDistricts.length) : s.districts.length;
+
+    const stateEl = document.createElement('div');
+    stateEl.className = 'dir-state';
+    if(q && (stateNameMatches || matchedDistricts.length)) stateEl.classList.add('open');
+
+    stateEl.innerHTML = `
+      <div class="dir-state-head">
+        <div class="dir-state-left">
+          <span class="dir-state-name">${s.state}</span>
+          <span class="dir-state-region">${s.region}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="dir-state-count">${s.districts.length} districts</span>
+          <span class="dir-chevron">▾</span>
+        </div>
+      </div>
+      <div class="dir-districts">
+        <div class="dir-districts-inner">
+          ${s.districts.map(d => {
+            const isMatch = q && d.toLowerCase().includes(q);
+            return `<span class="dir-chip${isMatch ? ' match' : ''}" data-district="${d}" data-state="${s.state}" data-region="${s.region}">${d}</span>`;
+          }).join('')}
+        </div>
+      </div>
+    `;
+    stateEl.querySelector('.dir-state-head').addEventListener('click', () => {
+      stateEl.classList.toggle('open');
+    });
+    dirList.appendChild(stateEl);
+  });
+
+  dirList.querySelectorAll('.dir-chip').forEach(chip => {
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openFoodModal(chip.dataset.district, chip.dataset.state, chip.dataset.region);
+    });
+  });
+
+  if(q){
+    dirCount.innerHTML = `<b>${stateMatches}</b> state${stateMatches !== 1 ? 's' : ''} · <b>${districtMatches}</b> matching district${districtMatches !== 1 ? 's' : ''}`;
+  } else {
+    dirCount.innerHTML = `33 states &amp; UTs · <b>${totalDistricts}</b> districts`;
+  }
+}
+
+dirSearch.addEventListener('input', () => renderDirectory(dirSearch.value));
+renderDirectory('');
+
+  // ---------- Scroll-reveal (auto-applies to cards, re-animates both scroll directions) ----------
+  const revealTargets = document.querySelectorAll(
+    '.dest-card, .guide-card, .culture-card, .price-card, .locked-panel, .quote, .section-head, .planner, .plan-result'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal'));
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('visible', entry.isIntersecting);
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  const staggerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => entry.target.classList.toggle('visible', entry.isIntersecting));
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal-stagger').forEach(el => staggerObserver.observe(el));
+
+  // ---------- Experience category modal ----------
+  const CATEGORY_DATA = {
+    himalaya: { icon:'🏔️', title:'Himalaya', sub:'Treks, passes, and monastery towns', states:['Himachal Pradesh','Uttarakhand','Sikkim','Ladakh','Jammu & Kashmir','Arunachal Pradesh'] },
+    coastline: { icon:'🏖️', title:'Coastline', sub:'Beaches from the west coast to the islands', states:['Goa','Kerala','Tamil Nadu','Andaman & Nicobar Islands','Odisha','Gujarat'] },
+    heritage: { icon:'🕌', title:'Heritage', sub:'Forts, palaces, and ancient temple towns', states:['Rajasthan','Madhya Pradesh','Karnataka','Uttar Pradesh','Odisha','Telangana'] },
+    wildlife: { icon:'🐅', title:'Wildlife', sub:'Tiger reserves and national parks', states:['Madhya Pradesh','Assam','Rajasthan','Karnataka','Kerala','Uttarakhand'] },
+    spiritual: { icon:'🛕', title:'Spiritual', sub:'Ghats, shrines, and pilgrim towns', states:['Uttar Pradesh — Varanasi','Bihar — Bodh Gaya','Punjab — Amritsar','Uttarakhand — Rishikesh','Odisha — Puri','Tamil Nadu — Madurai'] },
+    food: { icon:'🍛', title:'Food Trails', sub:'States best known for their cuisine', states:['Punjab','Tamil Nadu','West Bengal','Telangana','Kerala','Rajasthan'] },
+  };
+
+  const catOverlay = document.getElementById('catOverlay');
+  const catModal = document.getElementById('catModal');
+
+  function openCategory(key){
+    const c = CATEGORY_DATA[key];
+    if(!c) return;
+    catModal.innerHTML = `
+      <button class="cat-close" aria-label="Close">✕</button>
+      <div class="cat-ic">${c.icon}</div>
+      <h3>${c.title}</h3>
+      <div class="cat-sub">${c.sub}</div>
+      <ul>${c.states.map(s => `<li>${s}</li>`).join('')}</ul>
+    `;
+    catModal.querySelector('.cat-close').addEventListener('click', closeCategory);
+    catOverlay.classList.add('open');
+  }
+  function closeCategory(){ catOverlay.classList.remove('open'); }
+  catOverlay.addEventListener('click', (e) => { if(e.target === catOverlay) closeCategory(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeCategory(); });
+
+  document.querySelectorAll('.exp').forEach(exp => {
+    exp.addEventListener('click', () => openCategory(exp.dataset.cat));
+  });
+
+  // ---------- Trip Planner ----------
+  const TRIP_DATA = {
+    rajasthan: { name:'Rajasthan', days:5, budget:[9000,13000], mid:[20000,30000], luxury:[45000,60000],
+      nights:['Arrive in Jaipur, explore Amber Fort','Udaipur\'s lakes and City Palace','Overnight desert camp near Jaisalmer','Jodhpur\'s blue city walk','Free day / travel back'] },
+    kerala: { name:'Kerala', days:6, budget:[11000,15000], mid:[25000,35000], luxury:[50000,65000],
+      nights:['Kochi heritage walk','Munnar tea gardens','Alleppey houseboat overnight','Kovalam beach relax','Free day / travel back','Buffer day'] },
+    ladakh: { name:'Ladakh', days:7, budget:[18000,24000], mid:[35000,45000], luxury:[65000,85000],
+      nights:['Leh — acclimatisation day','Local monasteries: Thiksey & Shey','Drive to Nubra Valley, overnight','Pangong Lake, overnight','Return to Leh','Buffer / altitude rest day','Free day / travel back'] },
+    goa: { name:'Goa', days:4, budget:[6000,9000], mid:[15000,22000], luxury:[35000,45000],
+      nights:['North Goa beaches & flea market','South Goa quiet beaches','Old Goa churches + Dudhsagar Falls day trip','Free day / travel back'] },
+    up: { name:'Uttar Pradesh', days:3, budget:[4000,6500], mid:[10000,16000], luxury:[25000,32000],
+      nights:['Agra — Taj Mahal at sunrise','Fatehpur Sikri day trip','Varanasi ghats at dusk'] },
+    meghalaya: { name:'Meghalaya', days:5, budget:[9000,13000], mid:[18000,26000], luxury:[38000,48000],
+      nights:['Shillong city & Elephant Falls','Cherrapunji living root bridges','Dawki\'s clear river','Free day / travel back','Buffer day'] },
+  };
+  const TIER_LABEL = { budget:'Budget', mid:'Mid-range', luxury:'Luxury' };
+
+  let nightCount = 2;
+  const nightCountEl = document.getElementById('nightCount');
+  document.getElementById('nightMinus').addEventListener('click', () => {
+    nightCount = Math.max(1, nightCount - 1);
+    nightCountEl.textContent = nightCount;
+  });
+  document.getElementById('nightPlus').addEventListener('click', () => {
+    nightCount = Math.min(14, nightCount + 1);
+    nightCountEl.textContent = nightCount;
+  });
+
+  document.getElementById('planGo').addEventListener('click', () => {
+    const destKey = document.getElementById('planDest').value;
+    const tierKey = document.getElementById('planTier').value;
+    const trip = TRIP_DATA[destKey];
+    const [low, high] = trip[tierKey];
+    const perNightLow = low / trip.days;
+    const perNightHigh = high / trip.days;
+    const totalLow = Math.round(perNightLow * nightCount / 100) * 100;
+    const totalHigh = Math.round(perNightHigh * nightCount / 100) * 100;
+
+    document.getElementById('planTitle').textContent = `${trip.name} — ${nightCount} night${nightCount > 1 ? 's' : ''}, ${TIER_LABEL[tierKey]}`;
+    document.getElementById('planCost').textContent = `Estimated cost per person: ₹${totalLow.toLocaleString('en-IN')} – ₹${totalHigh.toLocaleString('en-IN')}`;
+
+    const nightsListEl = document.getElementById('planNights');
+    nightsListEl.innerHTML = '';
+    for(let i = 0; i < nightCount; i++){
+      const highlight = trip.nights[i] || 'Free day to explore further, at your own pace.';
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="n-num">Night ${i+1}</span><span>${highlight}</span>`;
+      nightsListEl.appendChild(li);
+    }
+    const resultEl = document.getElementById('planResult');
+    resultEl.classList.add('reveal');
+    resultEl.classList.add('show');
+    requestAnimationFrame(() => resultEl.classList.add('visible'));
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+</script>
 
 </body>
 </html>
